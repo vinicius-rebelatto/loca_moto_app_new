@@ -6,9 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.edu.up.locamotonovo.ui.screens.tarefas.afazeres.AfazeresNavHost
-import br.edu.up.locamotonovo.ui.screens.tarefas.notas.TelaNotas
-import br.edu.up.locamotonovo.ui.screens.tarefas.rotina.TelaRotina
-import br.edu.up.locamotonovo.ui.screens.util.PlannerNavBar
+import br.edu.up.locamotonovo.ui.screens.util.LocaMotoNavBar
 
 object MotosRotas {
     const val TelaMotos = "motos"
@@ -24,7 +22,7 @@ fun MotosNavHost(state: DrawerState) {
         startDestination = MotosRotas.TelaMotos
     ) {
         composable(MotosRotas.TelaMotos) {
-            AfazeresNavHost(state, { PlannerNavBar(navController) })
+            AfazeresNavHost(state, { LocaMotoNavBar(navController) })
         }
     }
 }

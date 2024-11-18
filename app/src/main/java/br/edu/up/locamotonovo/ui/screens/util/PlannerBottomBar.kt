@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import br.edu.up.locamotonovo.ui.screens.tarefas.MotosRotas
 
 @Composable
-fun PlannerNavBar(navController: NavController){
+fun LocaMotoNavBar(navController: NavController){
 
     NavigationBar {
         NavigationBarItem(
