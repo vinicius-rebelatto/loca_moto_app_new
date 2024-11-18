@@ -10,29 +10,21 @@ import br.edu.up.locamotonovo.ui.screens.tarefas.notas.TelaNotas
 import br.edu.up.locamotonovo.ui.screens.tarefas.rotina.TelaRotina
 import br.edu.up.locamotonovo.ui.screens.util.PlannerNavBar
 
-object TarefasRotas {
-    val TelaAfazeres = "afazeres"
-    val TelaRotina = "rotina"
-    val TelaNotas = "notas"
+object MotosRotas {
+    const val TelaMotos = "motos"
 }
 
 @Composable
-fun TarefasNavHost(state: DrawerState) {
+fun MotosNavHost(state: DrawerState) {
 
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = TarefasRotas.TelaAfazeres
+        startDestination = MotosRotas.TelaMotos
     ) {
-        composable(TarefasRotas.TelaAfazeres) {
+        composable(MotosRotas.TelaMotos) {
             AfazeresNavHost(state, { PlannerNavBar(navController) })
-        }
-        composable(TarefasRotas.TelaRotina) {
-            TelaRotina(state, { PlannerNavBar(navController) })
-        }
-        composable(TarefasRotas.TelaNotas) {
-            TelaNotas(state, { PlannerNavBar(navController) })
         }
     }
 }

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.edu.up.locamotonovo.ui.screens.tarefas.TarefasRotas
+import br.edu.up.locamotonovo.ui.screens.tarefas.MotosRotas
 
 @Composable
 fun PlannerNavBar(navController: NavController){
@@ -29,28 +29,17 @@ fun PlannerNavBar(navController: NavController){
         NavigationBarItem(
             selected = true,
             onClick = {
-                navController.navigate(TarefasRotas.TelaAfazeres)
+                navController.navigate(MotosRotas.TelaMotos)
             },
             icon = {
                 Icon(imageVector = Icons.Filled.DateRange,
                     contentDescription = "d",
                     modifier = Modifier.size(40.dp))
             },
-            label = { Text(text = "Afazeres")}
+            label = { Text(text = "Motos")}
         )
-        NavigationBarItem(
-            selected = false,
-            onClick = {
-                navController.navigate(TarefasRotas.TelaRotina)
-            },
-            icon = {
-                Icon(imageVector = Icons.Filled.Email,
-                    contentDescription = "e",
-                    modifier = Modifier.size(40.dp))
-            },
-            label = { Text(text = "Rotina")}
-        )
-        NavigationBarItem(
+
+        /*NavigationBarItem(
             selected = false,
             onClick = {
                 navController.navigate(TarefasRotas.TelaNotas)
@@ -61,7 +50,7 @@ fun PlannerNavBar(navController: NavController){
                     modifier = Modifier.size(40.dp))
             },
             label = { Text(text = "Anotações")}
-        )
+        )*/
     }
 }
 

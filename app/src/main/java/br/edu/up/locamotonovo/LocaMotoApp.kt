@@ -30,31 +30,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.edu.up.locamotonovo.ui.screens.projetos.TelaProjetos
-import br.edu.up.locamotonovo.ui.screens.financas.TelaFinancas
-import br.edu.up.locamotonovo.ui.screens.tarefas.TarefasNavHost
+import br.edu.up.locamotonovo.ui.screens.tarefas.MotosNavHost
 import kotlinx.coroutines.launch
 
-object PlannerRotas {
-    val TELA_TAREFAS = "tarefas"
-    val TELA_PROJETOS = "projetos"
-    val TELA_FINANCAS = "financas"
+object MotoRotas {
+    const val TELA_MOTOS = "Motos"
 }
 
 @Preview
 @Composable
-fun PlannerNavDrawer() {
+fun MotosNavDrawer() {
 
     val state = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
     val navController = rememberNavController()
     val currentBack by navController.currentBackStackEntryAsState()
-    val rotaAtual = currentBack?.destination?.route ?: PlannerRotas.TELA_TAREFAS
+    val rotaAtual = currentBack?.destination?.route ?: MotoRotas.TELA_MOTOS
 
-    val telaTarefasSelect = rotaAtual == PlannerRotas.TELA_TAREFAS
-    val telaProjetosSelect = rotaAtual == PlannerRotas.TELA_PROJETOS
-    val telaFinancasSelect = rotaAtual == PlannerRotas.TELA_FINANCAS
+    val telaMotosSelect = rotaAtual == MotoRotas.TELA_MOTOS
 
     ModalNavigationDrawer(
         drawerState = state,
@@ -68,10 +62,10 @@ fun PlannerNavDrawer() {
                 Spacer(modifier = Modifier.height(70.dp))
 
                 TextButton( colors = ButtonDefaults.buttonColors(
-                    containerColor = getBack(telaTarefasSelect)
+                    containerColor = getBack(telaMotosSelect)
                 ),
                     onClick = {
-                        navController.navigate(PlannerRotas.TELA_TAREFAS)
+                        navController.navigate(MotoRotas.TELA_MOTOS)
                         coroutineScope.launch { state.close() }
                     }) {
 
@@ -80,86 +74,33 @@ fun PlannerNavDrawer() {
                         painter = painterResource(id = R.drawable.checklist),
                         contentDescription = "d",
                         modifier = Modifier.size(40.dp),
-                        tint = getTint(telaTarefasSelect))
+                        tint = getTint(telaMotosSelect))
 
                     Text(
-                        color = getTint(telaTarefasSelect),
+                        color = getTint(telaMotosSelect),
                         text = "Tarefas", fontSize = 30.sp,
-                        modifier = Modifier.padding(30.dp, 5.dp)
-                    )
-                }
-
-                TextButton(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = getBack(telaProjetosSelect)
-                    ),
-                    onClick = {
-                        navController.navigate(PlannerRotas.TELA_PROJETOS)
-                        coroutineScope.launch { state.close() }
-                    }) {
-
-                    Icon(
-                        //imageVector = Icons.Filled.DateRange,
-                        painter = painterResource(id = R.drawable.checklist),
-                        contentDescription = "d",
-                        modifier = Modifier.size(40.dp),
-                        tint = getTint(telaProjetosSelect))
-
-                    Text(
-                        color = getTint(telaProjetosSelect),
-                        text = "Projetos", fontSize = 30.sp,
-                        modifier = Modifier.padding(30.dp, 5.dp)
-                    )
-                }
-
-
-                TextButton( colors = ButtonDefaults.buttonColors(
-                    containerColor = getBack(telaFinancasSelect)
-                ),
-                    onClick = {
-                        navController.navigate(PlannerRotas.TELA_FINANCAS)
-                        coroutineScope.launch { state.close() }
-                    }) {
-
-
-                    Icon(
-                        //imageVector = Icons.Filled.DateRange,
-                        painter = painterResource(id = R.drawable.checklist),
-                        contentDescription = "d",
-                        modifier = Modifier.size(40.dp),
-                        tint = getTint(telaFinancasSelect))
-
-                    Text(
-                        color = getTint(telaFinancasSelect),
-                        text = "Finanças", fontSize = 30.sp,
                         modifier = Modifier.padding(30.dp, 5.dp)
                     )
                 }
             }
         },
         content = {
-            PlannerNavHost(navController, state)
+            LocaMotoNavHost(navController, state)
         }
     )
 }
 
 @Composable
-private fun PlannerNavHost(
+private fun LocaMotoNavHost(
     navController: NavHostController,
     state: DrawerState
 ) {
     NavHost(
         navController = navController,
-        startDestination = PlannerRotas.TELA_TAREFAS
+        startDestination = MotoRotas.TELA_MOTOS
     ) {
-        composable(PlannerRotas.TELA_TAREFAS) {
-            TarefasNavHost(state)
-        }
-        composable(PlannerRotas.TELA_PROJETOS) {
-            TelaProjetos(state)
-        }
-        composable(PlannerRotas.TELA_FINANCAS) {
-            TelaFinancas(state)
+        composable(MotoRotas.TELA_MOTOS) {
+            MotosNavHost(state)
         }
 
     }
