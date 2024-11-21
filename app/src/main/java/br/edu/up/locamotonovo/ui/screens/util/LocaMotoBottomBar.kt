@@ -20,39 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.edu.up.locamotonovo.ui.screens.tarefas.MotosRotas
 
-@Composable
-fun LocaMotoNavBar(navController: NavController){
 
-    NavigationBar {
-        NavigationBarItem(
-            selected = true,
-            onClick = {
-                navController.navigate(MotosRotas.TelaMotos)
-            },
-            icon = {
-                Icon(imageVector = Icons.Filled.DateRange,
-                    contentDescription = "d",
-                    modifier = Modifier.size(40.dp))
-            },
-            label = { Text(text = "Motos")}
-        )
-
-        /*NavigationBarItem(
-            selected = false,
-            onClick = {
-                navController.navigate(TarefasRotas.TelaNotas)
-            },
-            icon = {
-                Icon(imageVector = Icons.Filled.Call,
-                    contentDescription = "c",
-                    modifier = Modifier.size(40.dp))
-            },
-            label = { Text(text = "Anotações")}
-        )*/
-    }
-}
 
 @Composable
 fun PlannerBottomBar(){

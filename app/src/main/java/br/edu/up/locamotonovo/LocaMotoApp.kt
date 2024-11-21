@@ -30,7 +30,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.edu.up.locamotonovo.ui.screens.tarefas.MotosNavHost
+import br.edu.up.locamotonovo.ui.screens.motos.MotosNavHost
 import kotlinx.coroutines.launch
 
 object MotoRotas {
