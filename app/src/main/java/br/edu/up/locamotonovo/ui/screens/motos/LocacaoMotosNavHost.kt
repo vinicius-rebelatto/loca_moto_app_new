@@ -11,10 +11,11 @@ import br.edu.up.locamotonovo.ui.model.Moto
 
 object TelaUmARotas {
     val LISTAR_MOTO_ROUTE = "listar_motos"
-    val VISUALIZAR_MOTO_ROUTE = "visualizar_moto"
+    val VISUALIZAR_MOTO_ROUTE = "visualizar_moto/{motoId}"
     val EDITAR_MOTO_ROUTE = "editar_moto"
     val INCLUIR_MOTO_ROUTE = "incluir_moto"
 }
+
 
 @Composable
 fun LocacaoMotosNavHost(state: DrawerState) {

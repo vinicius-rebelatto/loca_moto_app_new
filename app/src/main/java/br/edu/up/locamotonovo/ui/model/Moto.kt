@@ -1,8 +1,8 @@
 package br.edu.up.locamotonovo.ui.model
 
 data class Moto(
-    var titulo: String,
-    var descricao: String,
-    var valorlocacao: Double,
-    var id: Int? = null
+    var modelo: String = "",
+    var cor: String = "",
+    var valorlocacao: Double = 0.0,
+    var descricao: String = ""
 )

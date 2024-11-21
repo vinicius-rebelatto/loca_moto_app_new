@@ -26,63 +26,128 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.edu.up.locamotonovo.ui.model.Moto
 import br.edu.up.locamotonovo.ui.screens.util.PlannerTopBar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun CriarOuEditarMotoScreen(
     state: DrawerState,
     navController: NavController,
-    adicionarMoto: (Moto) -> Unit // Receber a função para adicionar moto
+    adicionarMoto: (Moto) -> Unit
 ) {
-    var titulo by remember { mutableStateOf("") }
-    var descricao by remember { mutableStateOf("") }
+    var modelo by remember { mutableStateOf("") }
+    var cor by remember { mutableStateOf("") }
     var valorlocacao by remember { mutableStateOf("") }
+    var descricao by remember { mutableStateOf("") }
+    var isSaving by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
-        topBar = { PlannerTopBar(state) },
-        content = { iPad ->
-            iPad
+        topBar = { PlannerTopBar(state, navController) },
+        content = { padding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(padding)
                     .padding(20.dp)
             ) {
-                Spacer(modifier = Modifier.height(130.dp))
-                Text(text = "Título", fontSize = 20.sp)
+                Text(text = "Modelo", fontSize = 20.sp)
                 OutlinedTextField(
-                    value = titulo,
-                    onValueChange = { titulo = it },
-                    modifier = Modifier.fillMaxWidth()
+                    value = modelo,
+                    onValueChange = { modelo = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    placeholder = { Text("Digite o modelo") }
+                )
+                Text(text = "Cor", fontSize = 20.sp)
+                OutlinedTextField(
+                    value = cor,
+                    onValueChange = { cor = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    placeholder = { Text("Digite a cor") }
+                )
+                Text(text = "Valor Locação (R\$)", fontSize = 20.sp)
+                OutlinedTextField(
+                    value = valorlocacao,
+                    onValueChange = { valorlocacao = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    placeholder = { Text("Digite o valor da locação") }
                 )
                 Text(text = "Descrição", fontSize = 20.sp)
                 OutlinedTextField(
                     value = descricao,
                     onValueChange = { descricao = it },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    placeholder = { Text("Digite uma descrição") }
                 )
-                Text(text = "Valor Locação", fontSize = 20.sp)
-                OutlinedTextField(
-                    value = valorlocacao,
-                    onValueChange = { valorlocacao = it },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                Spacer(modifier = Modifier.height(16.dp))
+                errorMessage?.let {
+                    Text(
+                        text = it,
+                        fontSize = 16.sp,
+                        color = androidx.compose.ui.graphics.Color.Red
+                    )
+                }
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                val novaMoto = Moto(
-                    titulo = titulo,
-                    descricao = descricao,
-                    valorlocacao = valorlocacao.toDoubleOrNull() ?: 0.0
-                )
-                adicionarMoto(novaMoto) // Adicionando a nova moto
-                navController.navigate(TelaUmARotas.LISTAR_MOTO_ROUTE)
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.Check,
-                    contentDescription = "Salvar",
-                    modifier = Modifier.size(40.dp)
-                )
+            FloatingActionButton(
+                onClick = {
+                    if (modelo.isBlank() || cor.isBlank() || valorlocacao.isBlank()) {
+                        errorMessage = "Todos os campos devem ser preenchidos."
+                        return@FloatingActionButton
+                    }
+
+                    val valorLocacaoDouble = valorlocacao.toDoubleOrNull()
+                    if (valorLocacaoDouble == null || valorLocacaoDouble <= 0) {
+                        errorMessage = "Valor da locação inválido."
+                        return@FloatingActionButton
+                    }
+
+                    isSaving = true
+                    errorMessage = null
+
+                    val novaMoto = Moto(
+                        modelo = modelo,
+                        cor = cor,
+                        valorlocacao = valorLocacaoDouble,
+                        descricao = descricao
+                    )
+
+                    val db = Firebase.firestore
+                    db.collection("motos")
+                        .add(novaMoto)
+                        .addOnSuccessListener {
+                            adicionarMoto(novaMoto)
+                            navController.navigate(TelaUmARotas.LISTAR_MOTO_ROUTE)
+                        }
+                        .addOnFailureListener {
+                            errorMessage = "Erro ao salvar a moto. Tente novamente."
+                        }
+                        .addOnCompleteListener {
+                            isSaving = false
+                        }
+                },
+                modifier = Modifier.size(60.dp) // Controla o tamanho do botão
+            ) {
+                if (isSaving) {
+                    Text("Salvando...")
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = "Salvar",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
         }
     )
 }
+

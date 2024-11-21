@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.edu.up.locamotonovo.ui.model.Moto
+import br.edu.up.locamotonovo.ui.screens.motos.VisualizarMotoScreen
 
 @Composable
 fun MotosNavHost(state: DrawerState) {
@@ -23,6 +24,14 @@ fun MotosNavHost(state: DrawerState) {
         }
         composable(TelaUmARotas.INCLUIR_MOTO_ROUTE) {
             CriarOuEditarMotoScreen(state, navController, { motos.add(it) })
+        }
+        composable("visualizar_moto/{modelo}") { backStackEntry ->
+            val modelo = backStackEntry.arguments?.getString("modelo")
+            // Encontre a moto correspondente à esse modelo
+            val moto = motos.find { it.modelo == modelo }
+            moto?.let {
+                VisualizarMotoScreen(state, navController, it)
+            }
         }
     }
 }

@@ -40,84 +40,83 @@ object MotoRotas {
 @Preview
 @Composable
 fun MotosNavDrawer() {
-
-    val state = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
-
     val navController = rememberNavController()
-    val currentBack by navController.currentBackStackEntryAsState()
-    val rotaAtual = currentBack?.destination?.route ?: MotoRotas.TELA_MOTOS
 
-    val telaMotosSelect = rotaAtual == MotoRotas.TELA_MOTOS
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route ?: MotoRotas.TELA_MOTOS
+    val isMotoScreenSelected = currentRoute == MotoRotas.TELA_MOTOS
 
     ModalNavigationDrawer(
-        drawerState = state,
+        drawerState = drawerState,
         drawerContent = {
-            Column(
-                modifier = Modifier
-                    .width(300.dp)
-                    .fillMaxHeight()
-                    .background(Color(0xFFC0E0FA)),
-            ) {
-                Spacer(modifier = Modifier.height(70.dp))
-
-                TextButton( colors = ButtonDefaults.buttonColors(
-                    containerColor = getBack(telaMotosSelect)
-                ),
-                    onClick = {
-                        navController.navigate(MotoRotas.TELA_MOTOS)
-                        coroutineScope.launch { state.close() }
-                    }) {
-
-                    Icon(
-                        //imageVector = Icons.Filled.DateRange,
-                        painter = painterResource(id = R.drawable.checklist),
-                        contentDescription = "d",
-                        modifier = Modifier.size(40.dp),
-                        tint = getTint(telaMotosSelect))
-
-                    Text(
-                        color = getTint(telaMotosSelect),
-                        text = "Tarefas", fontSize = 30.sp,
-                        modifier = Modifier.padding(30.dp, 5.dp)
-                    )
-                }
-            }
+            DrawerContent(
+                navController = navController,
+                isMotoScreenSelected = isMotoScreenSelected,
+                closeDrawer = { coroutineScope.launch { drawerState.close() } }
+            )
         },
         content = {
-            LocaMotoNavHost(navController, state)
+            LocaMotoNavHost(navController)
         }
     )
 }
 
 @Composable
-private fun LocaMotoNavHost(
+fun DrawerContent(
     navController: NavHostController,
-    state: DrawerState
+    isMotoScreenSelected: Boolean,
+    closeDrawer: () -> Unit
 ) {
+    Column(
+        modifier = Modifier
+            .width(300.dp)
+            .fillMaxHeight()
+            .background(Color(0xFFC0E0FA)),
+    ) {
+        Spacer(modifier = Modifier.height(70.dp))
+        TextButton(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = getBack(isMotoScreenSelected)
+            ),
+            onClick = {
+                navController.navigate(MotoRotas.TELA_MOTOS)
+                closeDrawer()
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.checklist),
+                contentDescription = "Tela Motos",
+                modifier = Modifier.size(40.dp),
+                tint = getTint(isMotoScreenSelected)
+            )
+            Text(
+                color = getTint(isMotoScreenSelected),
+                text = "Tarefas",
+                fontSize = 30.sp,
+                modifier = Modifier.padding(30.dp, 5.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun LocaMotoNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = MotoRotas.TELA_MOTOS
     ) {
         composable(MotoRotas.TELA_MOTOS) {
-            MotosNavHost(state)
+            MotosNavHost(rememberDrawerState(DrawerValue.Closed))
         }
-
     }
 }
 
 fun getTint(selected: Boolean): Color {
-    if (selected){
-        return Color.Black
-    } else{
-        return Color.DarkGray
-    }
+    return if (selected) Color.Black else Color.DarkGray
 }
 
 fun getBack(selected: Boolean): Color {
-    if (selected){
-        return Color.Yellow
-    } else{
-        return Color.Transparent
-    }
+    return if (selected) Color.Yellow else Color.Transparent
 }

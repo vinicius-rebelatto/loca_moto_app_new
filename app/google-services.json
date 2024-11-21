@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816964628974",
+    "project_id": "locamoto-8e95b",
+    "storage_bucket": "locamoto-8e95b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816964628974:android:7cac8c6f91574e7e6d1eff",
+        "android_client_info": {
+          "package_name": "br.edu.up.locamotonovo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDAIz-NKvt1aB7vDAE_fL3MtNe5zPOzYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
