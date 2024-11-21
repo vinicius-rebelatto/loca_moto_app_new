@@ -74,36 +74,34 @@ fun ListarMotosScreen(
                 )
                 if (motos.isEmpty()) {
                     Text(
-                        text = "Nenhuma moto cadastrada.",
+                        text = "Loading...",
                         fontSize = 18.sp,
                         modifier = Modifier.padding(8.dp)
                     )
                 } else {
                     LazyColumn {
                         items(motos) { moto ->
-                            Column(
+                            Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(8.dp)
+                                    .padding(8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(text = "Modelo: ${moto.modelo}", fontSize = 20.sp)
-                                Text(text = "Cor: ${moto.cor}", fontSize = 18.sp)
-                                Text(text = "Valor Locação: R\$ ${moto.valorlocacao}", fontSize = 18.sp)
-                                Text(text = "Descrição: ${moto.descricao}", fontSize = 16.sp)
-
-                                Spacer(modifier = Modifier.height(8.dp))
-
+                                Column {
+                                    Text(text = "Modelo: ${moto.modelo}", fontSize = 20.sp)
+                                    Text(text = "Cor: ${moto.cor}", fontSize = 18.sp)
+                                    Text(text = "Valor Locação: R\$ ${moto.valorlocacao}", fontSize = 18.sp)
+                                    Text(text = "Descrição: ${moto.descricao}", fontSize = 16.sp)
+                                }
                                 Button(onClick = {
                                     // Navegar para a tela de visualização passando a moto selecionada
                                     navController.navigate("visualizar_moto/${moto.modelo}")
                                 }) {
-                                    Text("Visualizar")
+                                    Text("Alugar")
                                 }
                             }
                         }
                     }
-
-
                 }
             }
         },

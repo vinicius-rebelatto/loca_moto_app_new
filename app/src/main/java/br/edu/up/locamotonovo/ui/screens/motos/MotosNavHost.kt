@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.edu.up.locamotonovo.ui.model.Moto
-import br.edu.up.locamotonovo.ui.screens.motos.VisualizarMotoScreen
 
 @Composable
 fun MotosNavHost(state: DrawerState) {

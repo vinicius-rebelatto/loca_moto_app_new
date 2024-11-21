@@ -86,7 +86,7 @@ fun DrawerContent(
             }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.checklist),
+                painter = painterResource(id = R.drawable.moto),
                 contentDescription = "Tela Motos",
                 modifier = Modifier.size(40.dp),
                 tint = getTint(isMotoScreenSelected)

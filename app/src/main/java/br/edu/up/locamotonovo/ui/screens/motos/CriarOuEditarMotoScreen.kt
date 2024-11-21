@@ -125,8 +125,8 @@ fun CriarOuEditarMotoScreen(
                     db.collection("motos")
                         .add(novaMoto)
                         .addOnSuccessListener {
-                            adicionarMoto(novaMoto)
                             navController.navigate(TelaUmARotas.LISTAR_MOTO_ROUTE)
+                            adicionarMoto(novaMoto)
                         }
                         .addOnFailureListener {
                             errorMessage = "Erro ao salvar a moto. Tente novamente."
